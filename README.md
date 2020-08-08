@@ -15,4 +15,4 @@ Useful links
 
 1. [Face Detection: PyImageSearch](https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/)
 
-OBSERVATION: Guys create secondary branches and remember to not commit directly in the Master. This way we avoid losing progress and we can quickly rollback.
+OBSERVATION: Guys, please create secondary branches and remember to not commit directly into the Master. Check it befor pull the request. This way we avoid losing progress and we can quickly rollback.
