@@ -11,8 +11,8 @@ path = 'link'
 df = pd.read_html(path)
 ```
 
-1. BeautifulSoup
+2. BeautifulSoup
 
-1. Selenium
+3. Selenium
 
-1. Parsehub
+4. Parsehub
