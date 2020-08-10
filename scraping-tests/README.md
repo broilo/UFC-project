@@ -6,10 +6,10 @@ Methods:
 
 1. Directly with pandas:
 
-'''
+``` 
 path = 'link'
 df = pd.read_html(path)
-'''
+```
 
 1. BeautifulSoup
 
