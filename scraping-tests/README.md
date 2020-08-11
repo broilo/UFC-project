@@ -16,3 +16,5 @@ df = pd.read_html(path)
 3. Selenium
 
 4. Parsehub
+
+5. Scrapy
