@@ -10,4 +10,4 @@ For more information click the [link](https://github.com/broilo/instagram-scrape
 
 1. thenotoriousmma: 2749 *images*.jpg
 
-### Obs: due the huge amount os images, I'll included it only a subset of thenotoriousmma images.
+### Obs: due the huge amount os images, I'll included here only a subset of thenotoriousmma images.
