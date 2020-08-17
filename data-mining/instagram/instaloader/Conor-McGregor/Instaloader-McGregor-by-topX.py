@@ -5,7 +5,7 @@ from instaloader import Instaloader, Profile
 
 #PROFILE = 'mcgregormania'        # profile to download from
 PROFILE = 'thenotoriousmma'
-X_percentage = 10    # percentage of posts that should be downloaded
+X_percentage = 5    # percentage of posts that should be downloaded
 
 L = Instaloader()
 
