@@ -1,3 +1,3 @@
-# image-recognition
+# Image Recognition
 
-Let's use this folder only to work with the identification of the fighters image.
+## Add notes here
