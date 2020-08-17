@@ -1,6 +1,6 @@
 # scraping-tests
 
-Let's use this folder only to work with data scraping
+Let's use this folder only to tests with data scraping
 
 Methods:
 
