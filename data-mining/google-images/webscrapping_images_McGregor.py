@@ -30,7 +30,8 @@ def extract_image(images):
 
 def image():
     #providing driver path
-    chrome_path = r"C:\Users\Carlisson\Desktop\chromedriver\chromedriver.exe"
+    ###chrome_path = r"C:\Users\Carlisson\Desktop\chromedriver\chromedriver.exe"
+    chrome_path = "/usr/bin/chromedriver"
     driver = webdriver.Chrome(executable_path = chrome_path)
 
     site = url(download)
