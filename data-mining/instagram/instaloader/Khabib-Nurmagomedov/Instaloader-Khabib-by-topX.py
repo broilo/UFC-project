@@ -3,8 +3,9 @@ from math import ceil
 
 from instaloader import Instaloader, Profile
 
-PROFILE = 'khabib_nurmagomedov'        # profile to download from
-X_percentage = 10    # percentage of posts that should be downloaded
+#PROFILE = 'mcgregormania'        # profile to download from
+PROFILE = 'khabib_nurmagomedov'
+X_percentage = 5    # percentage of posts that should be downloaded
 
 L = Instaloader()
 
