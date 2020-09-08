@@ -1,9 +1,20 @@
 # Data Mining
 
-## Instagram:
+## List of Fighters
 
-* Mateus: Scrape face and body images from Conor McGregor and Khabib Nurmagomedov
+```
+fighters = ['Conor McGregor', 'Khabib Nurmagomedov',
+                'Israel Adesanya', 'Paulo Costa',
+                'Dominick Reyes', 'Jan Blachowicz',
+                'Claudia Gadelha', 'Yan Xiaonan',
+                'Hakeem Dawodu', 'Zubaira Tukhugov',
+                'Kai Kara-France', 'Brandon Royval']
+```
 
-## Google Images:
+### Fighters' Information:
 
-* Carlisson: Scrape face and body images from Conor McGregor and Khabib Nurmagomedov
+* Scraped from wikipedia
+
+### Fighters' Images:
+
+* Scraped from Google Images
