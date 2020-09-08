@@ -9,16 +9,17 @@ import hashlib
 # Put the path for your Browser (ChromeDriver, Mozilla, Vivaldi...) here
 DRIVER_PATH = '/usr/bin/chromedriver'
 
-def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_between_interactions:int = 1):
+
+def fetch_image_urls(query: str, max_links_to_fetch: int, wd: webdriver, sleep_between_interactions: int = 1):
     def scroll_to_end(wd):
         wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(sleep_between_interactions)    
-    
+        time.sleep(sleep_between_interactions)
+
     # build the google query
     search_url = "https://www.google.com/search?safe=off&site=&tbm=isch&source=hp&q={q}&oq={q}&gs_l=img"
 
     # load the page
-    wd.get(search_url.format(q = query))
+    wd.get(search_url.format(q=query))
 
     image_urls = set()
     image_count = 0
@@ -29,9 +30,10 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
         # get all image thumbnail results
         thumbnail_results = wd.find_elements_by_css_selector("img.Q4LuWd")
         number_results = len(thumbnail_results)
-        
-        print(f"Found: {number_results} search results. Extracting links from {results_start}:{number_results}")
-        
+
+        print(
+            f"Found: {number_results} search results. Extracting links from {results_start}:{number_results}")
+
         for img in thumbnail_results[results_start:number_results]:
             # try to click every thumbnail such that we can get the real image behind it
             try:
@@ -40,7 +42,7 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
             except Exception:
                 continue
 
-            # extract image urls    
+            # extract image urls
             actual_images = wd.find_elements_by_css_selector('img.n3VNCb')
             for actual_image in actual_images:
                 if actual_image.get_attribute('src') and 'http' in actual_image.get_attribute('src'):
@@ -52,7 +54,8 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
                 print(f"Found: {len(image_urls)} image links, done!")
                 break
         else:
-            print("Found:", len(image_urls), "image links, looking for more ...")
+            print("Found:", len(image_urls),
+                  "image links, looking for more ...")
             time.sleep(10)
             return
             load_more_button = wd.find_element_by_css_selector(".mye4qd")
@@ -64,7 +67,8 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
 
     return image_urls
 
-def persist_image(folder_path:str, file_name:str, url:str):
+
+def persist_image(folder_path: str, file_name: str, url: str):
     try:
         image_content = requests.get(url).content
 
@@ -76,27 +80,30 @@ def persist_image(folder_path:str, file_name:str, url:str):
         image = Image.open(image_file).convert('RGB')
         folder_path = os.path.join(folder_path, file_name)
         if os.path.exists(folder_path):
-            file_path = os.path.join(folder_path, hashlib.sha1(image_content).hexdigest()[:10] + '.jpg')
+            file_path = os.path.join(folder_path, hashlib.sha1(
+                image_content).hexdigest()[:10] + '.jpg')
         else:
             os.mkdir(folder_path)
-            file_path = os.path.join(folder_path, hashlib.sha1(image_content).hexdigest()[:10] + '.jpg')
+            file_path = os.path.join(folder_path, hashlib.sha1(
+                image_content).hexdigest()[:10] + '.jpg')
         with open(file_path, 'wb') as f:
             image.save(f, "JPEG", quality=85)
         print(f"SUCCESS - saved {url} - as {file_path}")
     except Exception as e:
         print(f"ERROR - Could not save {url} - {e}")
 
+
 if __name__ == '__main__':
-    wd = webdriver.Chrome(executable_path = DRIVER_PATH)
-    fighters = ["Conon McGregor", "Khabib Nurmagomedov"] #change your set of querries here
-    queries = fighters  
+    wd = webdriver.Chrome(executable_path=DRIVER_PATH)
+    fighters = ["Brandon Royval"]  # change your set of querries here
+    queries = fighters
     for query in queries:
         wd.get('https://google.com')
         search_box = wd.find_element_by_css_selector('input.gLFyf')
         search_box.send_keys(query)
-        number_of_images = 100 #change the number of images to be scraped
+        number_of_images = 140  # change the number of images to be scraped
         links = fetch_image_urls(query, number_of_images, wd)
         images_path = '/home/broilo/Documents/GitHub/Dataset/UFC-project/data-mining/google-images/'
         for i in links:
-            persist_image(images_path,query,i)
+            persist_image(images_path, query, i)
     wd.quit()
