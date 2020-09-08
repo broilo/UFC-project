@@ -1,3 +1,5 @@
+OBSERVATION: Guys, please create secondary branches and remember to not commit directly into the Master. **Always make a pull the request BEFORE start working and always check before making a push**. This way we avoid losing progress and we can quickly rollback.
+
 # UFC-project
 
 Quick description: UFC fighter identification and card info
@@ -38,5 +40,3 @@ Face Recognition:
 1. [Deployment Of ML Models In AWS EC2 Instance](https://www.youtube.com/watch?v=oOqqwYI60FI&amp;t=266s)
 
 1. [Python and Flask - Getting Started with Flask](https://www.youtube.com/watch?v=7M1MaAPWnYg)
-
-OBSERVATION: Guys, please create secondary branches and remember to not commit directly into the Master. Check it before pull the request. This way we avoid losing progress and we can quickly rollback.
