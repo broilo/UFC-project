@@ -1,13 +1,15 @@
 # UFC-project
-Quick description: UFC fighter recognition and card info
 
-## Initials: Perform image recognition between two fighters
+Quick description: UFC fighter identification and card info
+
+## Perform UFC fighters image recognition and identification
+
+* Initials: Recognizes two fighters: Conor McGregor and Khabib Nurmagomedov. (Done!)
+* On production: Extend model to UFC253 main card and deploy model on AWS (using EC2 as server and S3 as bucket)
 
 ## Useful links:
 
-1. [Miro Mind Map: Week 0](https://miro.com/welcomeonboard/EvNvEq1qv8gXErnClhOvQnpAtqR2eLRuFoks0KVQBJYETtaChkCDZ8q0HrVoopAf)
-
-1. [Miro Mind Map: Week 1](to be added)
+1. [Miro Mind Map](https://miro.com/welcomeonboard/EvNvEq1qv8gXErnClhOvQnpAtqR2eLRuFoks0KVQBJYETtaChkCDZ8q0HrVoopAf)
 
 Web Scraping:
 
@@ -29,6 +31,12 @@ Face Recognition:
 
 1. [Facenet Tutorial](https://machinelearningmastery.com/how-to-develop-a-face-recognition-system-using-facenet-in-keras-and-an-svm-classifier/)
 
+1. [OpenCV and Android camera](https://medium.com/@jeppbautista/connect-android-camera-to-python-using-opencv-90fd19d838)
 
+1. [Deploying ML models To the Web with Flask on AWS EC2 Instance](https://medium.com/shapeai/deploying-flask-application-with-ml-models-on-aws-ec2-instance-3b9a1cec5e13)
+
+1. [Deployment Of ML Models In AWS EC2 Instance](https://www.youtube.com/watch?v=oOqqwYI60FI&amp;t=266s)
+
+1. [Python and Flask - Getting Started with Flask](https://www.youtube.com/watch?v=7M1MaAPWnYg)
 
 OBSERVATION: Guys, please create secondary branches and remember to not commit directly into the Master. Check it before pull the request. This way we avoid losing progress and we can quickly rollback.
