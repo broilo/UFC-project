@@ -39,6 +39,8 @@ Quick description: UFC fighter identification and card info
 
 1. [Deploying ML models To the Web with Flask on AWS EC2 Instance](https://medium.com/shapeai/deploying-flask-application-with-ml-models-on-aws-ec2-instance-3b9a1cec5e13)
 
+1. [Python Flask Tutorial](https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=1)
+
 1. [Deployment Of ML Models In AWS EC2 Instance](https://www.youtube.com/watch?v=oOqqwYI60FI&amp;t=266s)
 
 1. [Python and Flask - Getting Started with Flask](https://www.youtube.com/watch?v=7M1MaAPWnYg)
