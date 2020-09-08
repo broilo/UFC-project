@@ -13,13 +13,13 @@ Quick description: UFC fighter identification and card info
 
 1. [Miro Mind Map](https://miro.com/welcomeonboard/EvNvEq1qv8gXErnClhOvQnpAtqR2eLRuFoks0KVQBJYETtaChkCDZ8q0HrVoopAf)
 
-Web Scraping:
+### Web Scraping:
 
 1. [BeautifulSoup 1](https://medium.com/@feliciaSWE/easy-web-scraping-with-python-beautifulsoup-afc7191d6432)
 
 1. [BeautifulSoup 2](https://medium.com/@kaustumbhjaiswal7/learn-web-scraping-using-python-in-under-5-minutes-36a7d4d6e1e7)
 
-Face Recognition:
+### Face Recognition:
 
 1. [Peixebabel: Face Recognition](peixebabel/Reconhecimento-de-Faces)
 
@@ -34,6 +34,8 @@ Face Recognition:
 1. [Facenet Tutorial](https://machinelearningmastery.com/how-to-develop-a-face-recognition-system-using-facenet-in-keras-and-an-svm-classifier/)
 
 1. [OpenCV and Android camera](https://medium.com/@jeppbautista/connect-android-camera-to-python-using-opencv-90fd19d838)
+
+### Deploy
 
 1. [Deploying ML models To the Web with Flask on AWS EC2 Instance](https://medium.com/shapeai/deploying-flask-application-with-ml-models-on-aws-ec2-instance-3b9a1cec5e13)
 
