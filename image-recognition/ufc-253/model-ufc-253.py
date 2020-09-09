@@ -33,23 +33,17 @@ from sklearn.metrics import confusion_matrix
 from sklearn import metrics
 import pandas as pd
 
-TRAIN_SET_PATH = '/home/broilo/Documents/Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/train'
-# '/content/drive/My Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/train'
-TESTE_SET_PATH = '/home/broilo/Documents/Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/test'
-#' /content/drive/My Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/test'
-PATH_TO_LOAD_FACENET_MODEL = '/home/broilo/Documents/Drive/UFC-model-tutorial-branch/ufc-project/FaceNet/model/facenet_keras.h5'
-# '/content/drive/My Drive/UFC-model-tutorial-branch/ufc-project/FaceNet/model/facenet_keras.h5'
-UFC_PROJECT_PATH = '/home/broilo/Documents/Drive/UFC-model-tutorial-branch/'
-# '/content/drive/My Drive/UFC-model-tutorial-branch/'
-FACES_PATH = '/home/broilo/Documents/Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/'
-# '/content/drive/My Drive/UFC-model-tutorial-branch/ufc-project/2-ufc-fighters/'
-SAVE_NPZ = '/home/broilo/Documents/GitHub/Dataset/UFC-project/image-recognition/'
-TRAINED_MODEL = "trained_model.sav"
-TRAINED_OUT_ENCODER = "trained_out_encoder.sav"
+TRAIN_SET_PATH = './train'
+TESTE_SET_PATH = './test'
+PATH_TO_LOAD_FACENET_MODEL = './facenet_keras.h5'
+UFC_PROJECT_PATH = './'
+SAVE_NPZ = './'
+TRAINED_MODEL = "ufc-253-trained-model.pkl"
+TRAINED_OUT_ENCODER = "ufc-253-trained-out-encoder.pkl"
 URL_TEST1 = 'https://i.pinimg.com/originals/8b/95/b5/8b95b5db2d2b315dd75ddeddfe388538.jpg'
-URL_TEST2 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBbmAcIU9L8RqR0c4UhIzvPNxb04vNVj0MQw&usqp=CAU'
-URL_TEST3 = 'https://independent.bbvms.com/mediaclip/2841709/pthumbnail/608/342.jpg'
-URL_TEST4 = 'https://i.insider.com/5ed6069af34d0568aa63a683?width=1100&format=jpeg&auto=webp'
+#URL_TEST2 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBbmAcIU9L8RqR0c4UhIzvPNxb04vNVj0MQw&usqp=CAU'
+#URL_TEST3 = 'https://independent.bbvms.com/mediaclip/2841709/pthumbnail/608/342.jpg'
+#URL_TEST4 = 'https://i.insider.com/5ed6069af34d0568aa63a683?width=1100&format=jpeg&auto=webp'
 
 facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile = False)
 
@@ -324,12 +318,12 @@ def load_pickle():
   return load_model, load_out_encoder
 
 def saving_compressed_array(trainX, trainy, testX, testy):
-    save_compressed_array = savez_compressed(SAVE_NPZ + '2-fighters_face_dataset.npz', trainX, trainy, testX, testy)
+    save_compressed_array = savez_compressed(SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz', trainX, trainy, testX, testy)
     
 #saving_compressed_array(trainX, trainy, testX, testy) 
 
 def two_fighters_accuracy(model, out_encoder):
-    data = load(SAVE_NPZ + '2-fighters_face_dataset.npz')
+    data = load(SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz')
     trainX, trainy, testX, testy = data['arr_0'], data['arr_1'], data['arr_2'], data['arr_3']
     print("Training evaluation")
     training_evaluation(trainX, trainy)
@@ -358,11 +352,11 @@ def main():
 
     test_model_on_selected_photo(URL_TEST1, model, out_encoder)
 
-    test_model_on_selected_photo(URL_TEST2, model, out_encoder)
+    #test_model_on_selected_photo(URL_TEST2, model, out_encoder)
 
-    test_model_on_selected_photo(URL_TEST3, model, out_encoder)
+    #test_model_on_selected_photo(URL_TEST3, model, out_encoder)
 
-    test_model_on_selected_photo(URL_TEST4, model, out_encoder)
+    #test_model_on_selected_photo(URL_TEST4, model, out_encoder)
 
 if __name__ == "__main__":
     main()
