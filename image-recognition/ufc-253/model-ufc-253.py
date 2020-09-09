@@ -34,7 +34,7 @@ from sklearn import metrics
 import pandas as pd
 
 TRAIN_SET_PATH = './train'
-TESTE_SET_PATH = './test'
+TEST_SET_PATH = './test'
 PATH_TO_LOAD_FACENET_MODEL = './facenet_keras.h5'
 UFC_PROJECT_PATH = './'
 SAVE_NPZ = './'
@@ -137,7 +137,7 @@ def create_train_test_data():
     trainX, trainy = load_dataset(TRAIN_SET_PATH)
 
     # load test dataset
-    testX, testy = load_dataset(TESTE_SET_PATH)
+    testX, testy = load_dataset(TEST_SET_PATH)
 
     # save arrays to one file in compressed format
     return trainX, trainy, testX, testy
@@ -273,7 +273,7 @@ def create_embedding_data_set_and_train_model():
     return model, out_encoder
 
 
-def crate_data_set_for_hyperparameter_tuning():
+def create_data_set_for_hyperparameter_tuning():
     trainX, trainy, testX, testy = create_train_test_data()
     trainX, trainy, testX, testy = create_embedding_data_set(trainX, trainy,
                                                              testX, testy)
@@ -325,7 +325,7 @@ def model_metrics(model, testX, testy, out_encoder):
     yhat = predict_fighters(model, testX)
     print(metrics.classification_report(testy, yhat))
 
-#trainX, trainy, testX, testy, out_encoder = crate_data_set_for_hyperparameter_tuning()
+#trainX, trainy, testX, testy, out_encoder = create_data_set_for_hyperparameter_tuning()
 
 #model = fine_tune_model(trainX, trainy)
 
@@ -370,7 +370,7 @@ def load_trained_model():
         model, out_encoder = load_pickle()
     except Exception:
         print('Training model...')
-        trainX, trainy, testX, testy, out_encoder = crate_data_set_for_hyperparameter_tuning()
+        trainX, trainy, testX, testy, out_encoder = create_data_set_for_hyperparameter_tuning()
         model = fine_tune_model(trainX, trainy)
         save_pickle(model, out_encoder)
         saving_compressed_array(trainX, trainy, testX, testy)
