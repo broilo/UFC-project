@@ -45,6 +45,8 @@ URL_TEST2 = 'https://i.superesportes.com.br/PRP6_R8xdJF0WIXKkVZzhMDMG-I=/smart/i
 URL_TEST3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSiMNLCFPvZBb2pqxKcNx_1xTrBKDwzd44hkw&usqp=CAU'
 URL_TEST4 = 'https://agfight.com/wp-content/uploads/2019/07/gadelha-1.jpg'
 URL_TEST5 = 'https://www.superlutas.com.br/wp-content/uploads/2020/02/dominick-reyes-ufc247-1.jpg'
+URL_TEST6 = 'https://www.lowking.pl/wp-content/uploads/2019/11/dawodu_4.jpg'
+
 
 facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile=False)
 
@@ -392,6 +394,8 @@ def main():
     test_model_on_selected_photo(URL_TEST4, model, out_encoder)
 
     test_model_on_selected_photo(URL_TEST5, model, out_encoder)
+
+    test_model_on_selected_photo(URL_TEST6, model, out_encoder)
 
 
 if __name__ == "__main__":
