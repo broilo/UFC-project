@@ -42,7 +42,7 @@ TRAINED_MODEL = "ufc-253-trained-model.pkl"
 TRAINED_OUT_ENCODER = "ufc-253-trained-out-encoder.pkl"
 URL_TEST1 = 'https://cdn.vox-cdn.com/thumbor/jKijtSQjaN-w_MqFL5-QUpTpdFs=/0x0:3586x2476/1200x800/filters:focal(880x179:1452x751)/cdn.vox-cdn.com/uploads/chorus_image/image/67132969/993547388.jpg.0.jpg'
 URL_TEST2 = 'https://i.superesportes.com.br/PRP6_R8xdJF0WIXKkVZzhMDMG-I=/smart/imgsapp.mg.superesportes.com.br/app/noticia_126420360808/2019/10/06/2532165/20191006022136907118o.jpg'
-#URL_TEST3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSiMNLCFPvZBb2pqxKcNx_1xTrBKDwzd44hkw&usqp=CAU'
+URL_TEST3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSiMNLCFPvZBb2pqxKcNx_1xTrBKDwzd44hkw&usqp=CAU'
 URL_TEST4 = 'https://agfight.com/wp-content/uploads/2019/07/gadelha-1.jpg'
 #URL_TEST4 = 'https://i.insider.com/5ed6069af34d0568aa63a683?width=1100&format=jpeg&auto=webp'
 
@@ -387,7 +387,7 @@ def main():
 
     test_model_on_selected_photo(URL_TEST2, model, out_encoder)
 
-    #test_model_on_selected_photo(URL_TEST3, model, out_encoder)
+    test_model_on_selected_photo(URL_TEST3, model, out_encoder)
 
     test_model_on_selected_photo(URL_TEST4, model, out_encoder)
 
