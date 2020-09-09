@@ -1,4 +1,4 @@
-#pip install mtcnn
+# pip install mtcnn
 
 import tensorflow as tf
 from tensorflow import keras
@@ -28,7 +28,7 @@ import requests
 from io import BytesIO
 import pickle
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV 
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
 from sklearn import metrics
 import pandas as pd
@@ -45,84 +45,90 @@ URL_TEST1 = 'https://i.pinimg.com/originals/8b/95/b5/8b95b5db2d2b315dd75ddeddfe3
 #URL_TEST3 = 'https://independent.bbvms.com/mediaclip/2841709/pthumbnail/608/342.jpg'
 #URL_TEST4 = 'https://i.insider.com/5ed6069af34d0568aa63a683?width=1100&format=jpeg&auto=webp'
 
-facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile = False)
+facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile=False)
 
 detector = MTCNN()
 
+
 def extract_image_from_path(filename: str) -> np.ndarray:
-	
-  #file = os.path.join(global_image_path, filename)
-  image = Image.open(filename).convert('RGB')
-  pixels = np.asarray(image)
-  
-  return pixels
+
+    #file = os.path.join(global_image_path, filename)
+    image = Image.open(filename).convert('RGB')
+    pixels = np.asarray(image)
+
+    return pixels
+
 
 def extract_face_from_image_array(image_array: np.ndarray) -> np.ndarray:
-  faces = detector.detect_faces(image_array)
-  x1, y1, width, height = faces[0]['box']
-  x1, y1 = abs(x1), abs(y1)
-  x2, y2 = x1 + width, y1 + height
-  face = image_array[y1:y2, x1:x2]
-  
-  return face
+    faces = detector.detect_faces(image_array)
+    x1, y1, width, height = faces[0]['box']
+    x1, y1 = abs(x1), abs(y1)
+    x2, y2 = x1 + width, y1 + height
+    face = image_array[y1:y2, x1:x2]
+
+    return face
+
 
 def resize_extracted_face(image_array: np.ndarray, required_size: Tuple[int, int] = (160, 160)) -> np.ndarray:
     image = Image.fromarray(image_array).resize(required_size)
     face_array = asarray(image)
-  
+
     return face_array
 
 
 def extract_face(filename: str, required_size: Tuple[int, int] = (160, 160)) -> np.ndarray:
-  image = extract_image_from_path(filename)
-  face = extract_face_from_image_array(image)
-  resized_face = resize_extracted_face(face)
+    image = extract_image_from_path(filename)
+    face = extract_face_from_image_array(image)
+    resized_face = resize_extracted_face(face)
 
-  return resized_face
+    return resized_face
+
 
 def load_faces(directory: str) -> List[np.ndarray]:
-  """ Load images and extract faces for all images in a directory """
+    """ Load images and extract faces for all images in a directory """
 
-  faces = list()
+    faces = list()
 
-  # enumerate files
-  for filename in listdir(directory):
-    # path
-    path = directory + '/' + filename
+    # enumerate files
+    for filename in listdir(directory):
+        # path
+        path = directory + '/' + filename
 
-    # get face
-    face = extract_face(path)
+        # get face
+        face = extract_face(path)
 
-    # store
-    faces.append(face)
+        # store
+        faces.append(face)
 
-  return faces
+    return faces
 
-def load_dataset(directory: str)       -> (List[np.ndarray], np.ndarray):
-  """ Load a dataset that contains one subdir for each class that in turn contains images """
-	
-  X, y = list(), list()
-	
-  # enumerate folders, on per class
-  for subdir in listdir(directory):
-    # path
-    path = directory + '/' + subdir + '/'
 
-    # skip any files that might be in the dir
-    if not isdir(path):
-      continue
+def load_dataset(directory: str) -> (List[np.ndarray], np.ndarray):
+    """ Load a dataset that contains one subdir for each class that in turn contains images """
 
-    # load all faces in the subdirectory
-    faces = load_faces(path)
+    X, y = list(), list()
 
-    # create labels
-    labels = [subdir for _ in range(len(faces))]
+    # enumerate folders, on per class
+    for subdir in listdir(directory):
+        # path
+        path = directory + '/' + subdir + '/'
 
-    # store
-    X.extend(faces)
-    y.extend(labels)
-	
-  return asarray(X), asarray(y)
+        # skip any files that might be in the dir
+        if not isdir(path):
+            continue
+
+        # load all faces in the subdirectory
+        faces = load_faces(path)
+
+        # create labels
+        labels = [subdir for _ in range(len(faces))]
+
+        # store
+        X.extend(faces)
+        y.extend(labels)
+
+    return asarray(X), asarray(y)
+
 
 def create_train_test_data():
 
@@ -135,48 +141,52 @@ def create_train_test_data():
     # save arrays to one file in compressed format
     return trainX, trainy, testX, testy
 
+
 def get_embedding(facenet_model, face_pixels):
-  """ Get the face embedding for one face """
+    """ Get the face embedding for one face """
 
-  # scale pixel values
-  face_pixels = face_pixels.astype('float32')
+    # scale pixel values
+    face_pixels = face_pixels.astype('float32')
 
-  # standardize pixel values across channels (global)
-  mean, std = face_pixels.mean(), face_pixels.std()
-  face_pixels = (face_pixels - mean) / std
+    # standardize pixel values across channels (global)
+    mean, std = face_pixels.mean(), face_pixels.std()
+    face_pixels = (face_pixels - mean) / std
 
-  # transform face into one sample
-  samples = expand_dims(face_pixels, axis=0)
+    # transform face into one sample
+    samples = expand_dims(face_pixels, axis=0)
 
-  # make prediction to get embedding
-  yhat = facenet_model.predict(samples)
+    # make prediction to get embedding
+    yhat = facenet_model.predict(samples)
 
-  return yhat[0]
+    return yhat[0]
+
 
 def create_embedding_data_set(trainX, trainy, testX, testy):
-	# convert each face in the train set to an embedding
-	newTrainX = list()
-	for face_pixels in trainX:
-		embedding = get_embedding(facenet_model, face_pixels)
-		newTrainX.append(embedding)
-	newTrainX = asarray(newTrainX)
+    # convert each face in the train set to an embedding
+    newTrainX = list()
+    for face_pixels in trainX:
+        embedding = get_embedding(facenet_model, face_pixels)
+        newTrainX.append(embedding)
+    newTrainX = asarray(newTrainX)
 
-	# convert each face in the test set to an embedding
-	newTestX = list()
-	for face_pixels in testX:
-		embedding = get_embedding(facenet_model, face_pixels)
-		newTestX.append(embedding)
-	newTestX = asarray(newTestX)
+    # convert each face in the test set to an embedding
+    newTestX = list()
+    for face_pixels in testX:
+        embedding = get_embedding(facenet_model, face_pixels)
+        newTestX.append(embedding)
+    newTestX = asarray(newTestX)
 
-	return newTrainX, trainy, newTestX, testy
+    return newTrainX, trainy, newTestX, testy
+
 
 def normalize_input_vector(trainX, testX):
     # normalize input vectors
-    in_encoder = Normalizer(norm = 'l2')
+    in_encoder = Normalizer(norm='l2')
     trainX = in_encoder.transform(trainX)
     testX = in_encoder.transform(testX)
 
     return trainX, testX
+
 
 def enconde_targets(trainy, testy):
     # label encode targets
@@ -187,13 +197,15 @@ def enconde_targets(trainy, testy):
 
     return trainy, testy, out_encoder
 
+
 def train_model(trainX, trainy):
 
     # fit model
-    model = SVC(kernel = 'linear', probability = True)
+    model = SVC(kernel='linear', probability=True)
     model.fit(trainX, trainy)
 
     return model
+
 
 def predict_fighters(model, testX):
     # predict
@@ -201,11 +213,13 @@ def predict_fighters(model, testX):
 
     return yhat_test
 
+
 def get_image_array_from_url(url):
     response = requests.get(url)
     img = Image.open(BytesIO(response.content))
     pixels = np.asarray(img)
     return pixels
+
 
 def extract_face_from_url(url):
     image_array = get_image_array_from_url(url)
@@ -214,38 +228,41 @@ def extract_face_from_url(url):
 
     return resized_face_array
 
+
 def normalize_one_array(image_array):
-    in_encoder = Normalizer(norm = 'l2')
+    in_encoder = Normalizer(norm='l2')
     normalized_array = in_encoder.transform(image_array)
 
     return normalized_array
 
+
 def test_model_on_selected_photo(url, model, out_encoder):
     face_array = extract_face_from_url(url)
     face_embedding = get_embedding(facenet_model, face_array)
-    face_embedding = expand_dims(face_embedding, axis = 0)
+    face_embedding = expand_dims(face_embedding, axis=0)
     face_embedding_normalized = normalize_one_array(face_embedding)
 
     #sample = expand_dims(face_embedding_normalized, axis = 0)
-    
+
     yhat_class = model.predict(face_embedding_normalized)
     yhat_prob = model.predict_proba(face_embedding_normalized)
 
     #photo_name = out_encoder.inverse_transform([photo_class])
 
     class_index = yhat_class[0]
-    class_probability = yhat_prob[0,class_index] * 100
+    class_probability = yhat_prob[0, class_index] * 100
     predict_names = out_encoder.inverse_transform(yhat_class)
 
     # plot for fun
     plt.imshow(face_array)
-    plt.title("Predicted: {0} Probability {1:.2f}".format(predict_names[0], class_probability))
+    plt.title("Predicted: {0} Probability {1:.2f}".format(
+        predict_names[0], class_probability))
     plt.show()
-   
+
 
 def create_embedding_data_set_and_train_model():
     trainX, trainy, testX, testy = create_train_test_data()
-    trainX, trainy, testX, testy = create_embedding_data_set(trainX, trainy, 
+    trainX, trainy, testX, testy = create_embedding_data_set(trainX, trainy,
                                                              testX, testy)
     trainX, testX = normalize_input_vector(trainX, testX)
     trainy, testy, out_encoder = enconde_targets(trainy, testy)
@@ -254,37 +271,41 @@ def create_embedding_data_set_and_train_model():
 
     return model, out_encoder
 
+
 def crate_data_set_for_hyperparameter_tuning():
     trainX, trainy, testX, testy = create_train_test_data()
-    trainX, trainy, testX, testy = create_embedding_data_set(trainX, trainy, 
+    trainX, trainy, testX, testy = create_embedding_data_set(trainX, trainy,
                                                              testX, testy)
     trainX, testX = normalize_input_vector(trainX, testX)
     trainy, testy, out_encoder = enconde_targets(trainy, testy)
 
     return trainX, trainy, testX, testy, out_encoder
 
+
 def training_evaluation(trainX, trainy, cv=10, score='accuracy'):
-    scores = cross_val_score(SVC(kernel = 'linear'), trainX, trainy,
-    scoring=score, cv=cv)
+    scores = cross_val_score(SVC(kernel='linear'), trainX, trainy,
+                             scoring=score, cv=cv)
     print("Scores:", scores)
     print("Mean:", scores.mean())
     print("Standard deviation:", scores.std())
 
+
 def fine_tune_model(trainX, trainy, cv=5):
-    param_grid = {'C': [0.1, 1, 10, 100, 1000],  
-              'gamma': ['auto','scale'], 
-              'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
-              'probability' : [True]}  
-  
-    grid = GridSearchCV(SVC(), param_grid, refit = True, verbose = 1, 
-                        return_train_score=True, cv=cv) 
-  
-    # fitting the model for grid search 
+    param_grid = {'C': [0.1, 1, 10, 100, 1000],
+                  'gamma': ['auto', 'scale'],
+                  'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+                  'probability': [True]}
+
+    grid = GridSearchCV(SVC(), param_grid, refit=True, verbose=1,
+                        return_train_score=True, cv=cv)
+
+    # fitting the model for grid search
     grid.fit(trainX, trainy)
     #model = grid.best_estimator_
     #model = grid.best_estimator_.set_params(probability=True)
 
     return grid.best_estimator_
+
 
 def model_accuracy(model, testX, testy, out_encoder):
     yhat = predict_fighters(model, testX)
@@ -292,10 +313,12 @@ def model_accuracy(model, testX, testy, out_encoder):
     print()
     print(out_encoder.classes_)
 
+
 def svm_confusion_matrix(model, testX, testy, out_encoder):
     yhat = predict_fighters(model, testX)
-    print(pd.crosstab(testy, yhat, rownames = ['Real'], 
-                                      colnames = ['     Predicted'], margins = True))
+    print(pd.crosstab(testy, yhat, rownames=['Real'],
+                      colnames=['     Predicted'], margins=True))
+
 
 def model_metrics(model, testX, testy, out_encoder):
     yhat = predict_fighters(model, testX)
@@ -305,22 +328,29 @@ def model_metrics(model, testX, testy, out_encoder):
 
 #model = fine_tune_model(trainX, trainy)
 
+
 def save_pickle(model, out_encoder):
-  pickle.dump(model, open(UFC_PROJECT_PATH + TRAINED_MODEL, 'wb'))
-  pickle.dump(out_encoder, open(UFC_PROJECT_PATH + TRAINED_OUT_ENCODER, 'wb'))
+    pickle.dump(model, open(UFC_PROJECT_PATH + TRAINED_MODEL, 'wb'))
+    pickle.dump(out_encoder, open(
+        UFC_PROJECT_PATH + TRAINED_OUT_ENCODER, 'wb'))
 
 #save_pickle(model, out_encoder)
 
-def load_pickle():
-  load_model = pickle.load(open(UFC_PROJECT_PATH + TRAINED_MODEL, 'rb'))
-  load_out_encoder = pickle.load(open(UFC_PROJECT_PATH + TRAINED_OUT_ENCODER, 'rb'))
 
-  return load_model, load_out_encoder
+def load_pickle():
+    load_model = pickle.load(open(UFC_PROJECT_PATH + TRAINED_MODEL, 'rb'))
+    load_out_encoder = pickle.load(
+        open(UFC_PROJECT_PATH + TRAINED_OUT_ENCODER, 'rb'))
+
+    return load_model, load_out_encoder
+
 
 def saving_compressed_array(trainX, trainy, testX, testy):
-    save_compressed_array = savez_compressed(SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz', trainX, trainy, testX, testy)
-    
-#saving_compressed_array(trainX, trainy, testX, testy) 
+    save_compressed_array = savez_compressed(
+        SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz', trainX, trainy, testX, testy)
+
+#saving_compressed_array(trainX, trainy, testX, testy)
+
 
 def two_fighters_accuracy(model, out_encoder):
     data = load(SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz')
@@ -333,6 +363,7 @@ def two_fighters_accuracy(model, out_encoder):
     model_metrics(model, testX, testy, out_encoder)
     print(out_encoder.classes_)
 
+
 def load_trained_model():
     try:
         model, out_encoder = load_pickle()
@@ -343,6 +374,7 @@ def load_trained_model():
         save_pickle(model, out_encoder)
         saving_compressed_array(trainX, trainy, testX, testy)
     return model, out_encoder
+
 
 def main():
 
@@ -357,6 +389,7 @@ def main():
     #test_model_on_selected_photo(URL_TEST3, model, out_encoder)
 
     #test_model_on_selected_photo(URL_TEST4, model, out_encoder)
+
 
 if __name__ == "__main__":
     main()
