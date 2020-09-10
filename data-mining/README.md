@@ -11,6 +11,12 @@ fighters = ['Conor McGregor', 'Khabib Nurmagomedov',
                 'Kai Kara-France', 'Brandon Royval']
 ```
 
+Faltando: 
+
+```
+['Yan Xiaonan', 'Zubaira Tukhugov',]
+```
+
 ### Fighters' Information:
 
 * Scraped from wikipedia
