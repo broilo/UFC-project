@@ -402,6 +402,12 @@ def main():
 
     test_model_on_selected_photo(URL_TEST7, model, out_encoder)
 
+    test_model_on_selected_photo(URL_TEST8, model, out_encoder)
+
+    test_model_on_selected_photo(URL_TEST9, model, out_encoder)
+
+    test_model_on_selected_photo(URL_TEST10, model, out_encoder)
+
 
 if __name__ == "__main__":
     main()
