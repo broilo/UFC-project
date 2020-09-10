@@ -47,6 +47,9 @@ URL_TEST4 = 'https://agfight.com/wp-content/uploads/2019/07/gadelha-1.jpg'
 URL_TEST5 = 'https://www.superlutas.com.br/wp-content/uploads/2020/02/dominick-reyes-ufc247-1.jpg'
 URL_TEST6 = 'https://www.lowking.pl/wp-content/uploads/2019/11/dawodu_4.jpg'
 URL_TEST7 = 'https://i.ytimg.com/vi/wdsH1jK10fI/maxresdefault.jpg'
+URL_TEST8 = 'https://sportshub.cbsistatic.com/i/r/2019/11/17/8c67de3c-0fae-4797-8287-0e7ea1c91aae/thumbnail/1200x675/990077a2e32127fd11136366f4a03d08/ufc.jpg'
+URL_TEST9 = 'https://www.superlutas.com.br/wp-content/uploads/2019/01/conor-foto-reprodu%C3%A7%C3%A3o-instagram-@thenotoriousmma-e1554302752374.jpg'
+URL_TEST10 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMz7oueTNIi87pS6NaRQU21iY-GdWixvjAAA&usqp=CAU'
 
 facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile=False)
 
