@@ -32,12 +32,14 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
 from sklearn import metrics
 import pandas as pd
+import cv2
+from cv2 import CascadeClassifier
 
 TRAIN_SET_PATH = './train'
 TEST_SET_PATH = './test'
 PATH_TO_LOAD_FACENET_MODEL = './facenet_keras.h5'
 UFC_PROJECT_PATH = './'
-SAVE_NPZ = './'
+SAVE_NPZ = 'ufc-253-fighters-face-dataset.npz'
 TRAINED_MODEL = "ufc-253-trained-model.pkl"
 TRAINED_OUT_ENCODER = "ufc-253-trained-out-encoder.pkl"
 URL_TEST1 = 'https://cdn.vox-cdn.com/thumbor/jKijtSQjaN-w_MqFL5-QUpTpdFs=/0x0:3586x2476/1200x800/filters:focal(880x179:1452x751)/cdn.vox-cdn.com/uploads/chorus_image/image/67132969/993547388.jpg.0.jpg'
@@ -50,8 +52,10 @@ URL_TEST7 = 'https://i.ytimg.com/vi/wdsH1jK10fI/maxresdefault.jpg'
 URL_TEST8 = 'https://sportshub.cbsistatic.com/i/r/2019/11/17/8c67de3c-0fae-4797-8287-0e7ea1c91aae/thumbnail/1200x675/990077a2e32127fd11136366f4a03d08/ufc.jpg'
 URL_TEST9 = 'https://www.superlutas.com.br/wp-content/uploads/2019/01/conor-foto-reprodu%C3%A7%C3%A3o-instagram-@thenotoriousmma-e1554302752374.jpg'
 URL_TEST10 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMz7oueTNIi87pS6NaRQU21iY-GdWixvjAAA&usqp=CAU'
+URL_TEST11 = 'https://i.ytimg.com/vi/jfhrWxAWdo4/maxresdefault.jpg'
+URL_TEST12 = 'https://conteudo.imguol.com.br/c/esporte/6f/2019/09/07/zubaira-tukhugov-retornou-ao-octogono-apos-mais-de-tres-anos-de-inatividade-e-empatou-com-o-britanico-lerone-murphy-1567888582808_v2_450x337.jpg'
 
-facenet_model = load_model(PATH_TO_LOAD_FACENET_MODEL, compile=False)
+facenet_model = load_model('./facenet_keras.h5', compile=False)
 
 detector = MTCNN()
 
@@ -353,13 +357,13 @@ def load_pickle():
 
 def saving_compressed_array(trainX, trainy, testX, testy):
     save_compressed_array = savez_compressed(
-        SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz', trainX, trainy, testX, testy)
+        UFC_PROJECT_PATH + SAVE_NPZ, trainX, trainy, testX, testy)
 
 #saving_compressed_array(trainX, trainy, testX, testy)
 
 
 def two_fighters_accuracy(model, out_encoder):
-    data = load(SAVE_NPZ + 'ufc-253-fighters-face-dataset.npz')
+    data = load(UFC_PROJECT_PATH + SAVE_NPZ)
     trainX, trainy, testX, testy = data['arr_0'], data['arr_1'], data['arr_2'], data['arr_3']
     print("Training evaluation")
     training_evaluation(trainX, trainy)
@@ -408,6 +412,9 @@ def main():
 
     test_model_on_selected_photo(URL_TEST10, model, out_encoder)
 
+    test_model_on_selected_photo(URL_TEST11, model, out_encoder)
+
+    test_model_on_selected_photo(URL_TEST12, model, out_encoder)
 
 if __name__ == "__main__":
     main()
