@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UFC Project - dataset ai</title>
+    <style>
+        * {
+            font-size:30px;
+        }
+    </style>
+    </head>
+    <body>
+        <input id="name-input" type="text"/>
+        <button id="name-button">Submit url</button>
+        <p id="prediction"></p>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $("#name-button").click(function(event){
+                let message = {
+                    name: $("#name-input").val()
+                }
+                $.post("http://localhost:5000/predict", JSON.stringify(message),function(response){
+                    $("#prediction").text(response.prediction);
+                    console.log(response);
+                });
+            });
+        </script>
+    </body>
+</html>
