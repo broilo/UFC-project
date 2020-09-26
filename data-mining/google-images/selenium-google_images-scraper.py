@@ -8,7 +8,7 @@ import io
 import hashlib
 # Put the path for your Browser (ChromeDriver, Mozilla, Vivaldi...) here
 DRIVER_PATH = '/usr/bin/chromedriver'
-
+IMAGES_PATH = './'
 
 def fetch_image_urls(query: str, max_links_to_fetch: int, wd: webdriver, sleep_between_interactions: int = 1):
     def scroll_to_end(wd):
@@ -103,7 +103,6 @@ if __name__ == '__main__':
         search_box.send_keys(query)
         number_of_images = 140  # change the number of images to be scraped
         links = fetch_image_urls(query, number_of_images, wd)
-        images_path = '/home/broilo/Documents/GitHub/Dataset/UFC-project/data-mining/google-images/'
         for i in links:
-            persist_image(images_path, query, i)
+            persist_image(IMAGES_PATH, query, i)
     wd.quit()
