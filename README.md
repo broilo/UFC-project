@@ -1,5 +1,3 @@
-OBSERVATION: Guys, please create secondary branches and remember to not commit directly into the Master. **Always make a pull the request BEFORE start working and always check before making a push**. This way we avoid losing progress and we can quickly rollback.
-
 # UFC-project
 
 Quick description: UFC fighter identification and card info
@@ -7,7 +5,7 @@ Quick description: UFC fighter identification and card info
 ## Perform UFC fighters image recognition and identification
 
 * Initials: Recognizes two fighters: Conor McGregor and Khabib Nurmagomedov. (Done!)
-* On production: Extend model to UFC253 main card and deploy model on AWS (using EC2 as server and S3 as bucket)
+* Extend model to UFC253 main card and deploy model on AWS (using EC2 as server and S3 as bucket)
 
 ## Useful links:
 
